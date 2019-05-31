@@ -1,0 +1,18 @@
+Hi All,
+We hope that postman session helped you to understand the basics please send your feedback link is available below. We wanted you to come up with following assertions and features from your own projects (before 19th April).
+1.	Null & Not null,
+2.	HTTP status codes (200, 201, 400, 403, 404 and 500)
+3.	Response time & Response size
+4.	Basic for loops
+5.	NEWMAN reports integration
+6.	Jenkins integration (I have attached the document for Jenkins integration in case you would like to try it on your own)
+
+HTTP Methods:
+1.	GET & POST
+2.	PUT & DELETE
+
+Postman: YouTube videos
+https://www.youtube.com/watch?v=1FxKWHeAcDs&list=PLIMhDiITmNrJgUekucfx3X7XxyekZHxJj&index=5
+https://www.youtube.com/watch?v=qDb7v9MrQ38
+https://www.youtube.com/watch?v=kLCviw_9Hcc
+Advanced Stuff: https://www.youtube.com/watch?v=Ayo_KdLLcTA&list=PLM-7VG-sgbtBE0mqMBlAYNuqTkhJzFjlP&index=1

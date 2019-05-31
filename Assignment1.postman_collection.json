@@ -1,0 +1,143 @@
+{
+	"info": {
+		"_postman_id": "0bd1dfef-3285-44f4-a6b4-aae078c5a08d",
+		"name": "Assignment1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "FirstAPI",
+			"item": [
+				{
+					"name": "GetCityCodeByLatLong",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "2adf12b2-09e2-49df-bac4-f5d86770774c",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "eac223af-762b-43ad-afb2-f7f296a5c612",
+								"exec": [
+									"//Store the response in Jresponse variable for further use",
+									"let Jresponse = pm.response.json();",
+									"",
+									"",
+									"//To verify response code is 200",
+									"pm.test(\"Verify that response code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"//To Verify that ErrorCode, ErrorMsg, IsSuccessful, ResponseData values are appropriate ",
+									"pm.test(\"Verify that Errorcode, ErrorMsg, Issuccessfull, ResponseData values are appropriate\", function() {",
+									"    pm.expect(Jresponse.ErrorCode).to.be.null;",
+									"    pm.expect(Jresponse.ErrorMsg).to.be.null;",
+									"    pm.expect(Jresponse.IsSuccessful).to.equal(true);",
+									"    pm.expect(Jresponse.ResponseData).to.not.equal(null);",
+									"});",
+									"",
+									"",
+									"//To Verify that City Code doesn't have null value in the response",
+									"pm.test(\"Verify that City Code doesn't have null value in the response\", function(){",
+									"    pm.expect(Jresponse.cityCode).not.equal(null);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluQDEyMyIsInN1YiI6ImFkbWluQDEyMyIsInJvbGUiOlsiTWFuYWdlciIsIlN1cGVydmlzb3IiXSwiaXNzIjoiaHR0cDovL2V4dGVudGlhLmF6dXJld2Vic2l0ZXMubmV0IiwiYXVkIjoiMjg1ZjA0YzcyYTRkNDU4MmFmY2YzNGVmOGZkZWU0NGYiLCJleHAiOjE1NTE4NjQ2MTQsIm5iZiI6MTU1MTg2MjgxNH0.WH_NqTxC2qJoVYUmjXFXkSPKZjWK0HeREjWhOLFcXGc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{QA_BaseURL}}/api/Masters/Book/GetCityCodeByLatLong?latitude={{latitude}}&longitude={{longitude}}",
+							"host": [
+								"{{QA_BaseURL}}"
+							],
+							"path": [
+								"api",
+								"Masters",
+								"Book",
+								"GetCityCodeByLatLong"
+							],
+							"query": [
+								{
+									"key": "latitude",
+									"value": "{{latitude}}"
+								},
+								{
+									"key": "longitude",
+									"value": "{{longitude}}"
+								}
+							]
+						},
+						"description": "This API returns city  code based on latitude  and  longitude passed in the request."
+					},
+					"response": []
+				},
+				{
+					"name": "GenerateToken",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://192.168.15.8:8082/api/LoginPS?userId=admin@123&password=admin@123",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"15",
+								"8"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"LoginPS"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "admin@123"
+								},
+								{
+									"key": "password",
+									"value": "admin@123"
+								}
+							]
+						},
+						"description": "This request is used to Generate a tocken"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

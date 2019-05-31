@@ -1,0 +1,245 @@
+{
+	"info": {
+		"_postman_id": "fcdebb44-6aa0-426a-bfe8-fed6adb07da3",
+		"name": "CRUD",
+		"description": "# Introduction\nWhat does your API do?\n\n# Overview\nThings that the developers should know about\n\n# Authentication\nWhat is the preferred way of using the API?\n\n# Error Codes\nWhat errors and status codes can a user expect?\n\n# Rate limit\nIs there a limit to the number of requests an user can send?",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetList",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/student/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"student",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetParticularStudent",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/student/99",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"student",
+						"99"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetFinancialAnalysisProgrammeStudentList",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/student/list?programme=Financial%20Analysis",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"student",
+						"list"
+					],
+					"query": [
+						{
+							"key": "programme",
+							"value": "Financial%20Analysis"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetFinancialAnalysisProgrammeStudentListMax3",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/student/list?programme=Financial%20Analysis&limit=3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"student",
+						"list"
+					],
+					"query": [
+						{
+							"key": "programme",
+							"value": "Financial%20Analysis"
+						},
+						{
+							"key": "limit",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetComputerScienceStudentList",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/student/list?programme=Computer%20Science",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"student",
+						"list"
+					],
+					"query": [
+						{
+							"key": "programme",
+							"value": "Computer%20Science"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddStudent",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n        \"firstName\": \"Markone\",\n        \"lastName\": \"Tanneru\",\n        \"email\": \"markandeyulu@gmail.com\",\n        \"programme\": \"Financial Analysis\",\n        \"courses\": [\n            \"Accounting\",\n            \"Statistics\"\n        ]\n    }"
+				},
+				"url": {
+					"raw": "http://localhost:8080/student/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"student",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateStudent",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n        \"id\": 104,\n        \"firstName\": \"MarkTanneru\",\n        \"lastName\": \"Tanneru\",\n        \"email\": \"markandeyulu@gmail.com\",\n        \"programme\": \"Information Technology\",\n        \"courses\": [\n            \"Accounting\",\n            \"Statistics\"\n        ]\n    }"
+				},
+				"url": {
+					"raw": "http://localhost:8080/student/104",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"student",
+						"104"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteStudent",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/student/104",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"student",
+						"104"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
