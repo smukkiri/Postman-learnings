@@ -1,5 +1,5 @@
 Download the student jar file and run in desktop
-create new collections
+create new collections and add request (we can run collections also)
 Use get with http://localhost:8080/student/1 or http://localhost:8080/student/2 etc
 use below codes for testing. refer body for data fetched and test results for results
 
