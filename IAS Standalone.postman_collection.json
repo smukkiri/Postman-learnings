@@ -1,0 +1,1251 @@
+{
+	"info": {
+		"_postman_id": "3b90509e-437e-4492-80ce-3c246f165b4b",
+		"name": "IAS Standalone",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Fetch Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cefb707a-b568-4972-b8f5-4e7c73660b51",
+						"exec": [
+							"let resJson = pm.response.json()\r",
+							"pm.environment.set('token',resJson.access_token);\r",
+							"\r",
+							"pm.test(\"Generate Token\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "optimus_sales",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "welcome123",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "optimus",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/auth/realms/master/protocol/openid-connect/token",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth",
+						"realms",
+						"master",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get CPE BOM Data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f9ad372f-1c63-4e7a-8c8a-33f68faeb251",
+						"exec": [
+							"pm.test(\"get bom details\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/optimus-product/api/v1/products/CPE-BOM?bandwidth=20&portInterface=Fast Ethernet&routingProtocol=Static",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"optimus-product",
+						"api",
+						"v1",
+						"products",
+						"CPE-BOM"
+					],
+					"query": [
+						{
+							"key": "bandwidth",
+							"value": "20"
+						},
+						{
+							"key": "portInterface",
+							"value": "Fast Ethernet"
+						},
+						{
+							"key": "routingProtocol",
+							"value": "Static"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Quote For Managed Single Internet Access",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e4710779-0437-4fa6-a35e-5329cf149b57",
+						"exec": [
+							"let resJson = pm.response.json()\r",
+							"pm.environment.set('quoteId',resJson.data.quoteId);\r",
+							"pm.environment.set('quoteleId',resJson.data.quoteleId);\r",
+							"\r",
+							"\r",
+							"pm.test(\"Create quote\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"productName\": \"IAS\",\r\n  \"site\": [],\r\n  \"quoteId\": null,\r\n  \"quoteleId\": null,\r\n  \"solutions\": [\r\n    {\r\n      \"offeringName\": \"Managed Single Internet Access\",\r\n      \"components\": [\r\n        {\r\n          \"name\": \"Internet Port\",\r\n          \"componentMasterId\": 1,\r\n          \"attributes\": [\r\n            {\r\n              \"name\": \"Interface\",\r\n              \"value\": \"Fast Ethernet\",\r\n              \"attributeMasterId\": 1\r\n            },\r\n            {\r\n              \"name\": \"Port Bandwidth\",\r\n              \"value\": \"20\",\r\n              \"attributeMasterId\": 29\r\n            },\r\n            {\r\n              \"name\": \"Service type\",\r\n              \"value\": \"Fixed\",\r\n              \"attributeMasterId\": 3\r\n            },\r\n            {\r\n              \"name\": \"Burstable Bandwidth\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 4\r\n            },\r\n            {\r\n              \"name\": \"Usage Model\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 5\r\n            },\r\n            {\r\n              \"name\": \"IP Address Arrangement\",\r\n              \"value\": \"IPv4\",\r\n              \"attributeMasterId\": 12\r\n            },\r\n            {\r\n              \"name\": \"IPv4 Address Pool Size\",\r\n              \"value\": \"TCL IPv4/29\",\r\n              \"attributeMasterId\": 13\r\n            },\r\n            {\r\n              \"name\": \"IPv6 Address Pool Size\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 14\r\n            },\r\n            {\r\n              \"name\": \"Extended LAN Required?\",\r\n              \"value\": \"No\",\r\n              \"attributeMasterId\": 16\r\n            },\r\n            {\r\n              \"name\": \"Routing Protocol\",\r\n              \"value\": \"Static\",\r\n              \"attributeMasterId\": 18\r\n            },\r\n            {\r\n              \"name\": \"BFD Required\",\r\n              \"value\": \"No\",\r\n              \"attributeMasterId\": 17\r\n            },\r\n            {\r\n              \"name\": \"BGP Peering on\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 21\r\n            },\r\n            {\r\n              \"name\": \"BGP AS Number\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 38\r\n            },\r\n            {\r\n              \"name\": \"Customer prefixes\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 39\r\n            }\r\n          ],\r\n          \"type\": \"primary\"\r\n        },\r\n        {\r\n          \"name\": \"Last mile\",\r\n          \"componentMasterId\": 2,\r\n          \"attributes\": [\r\n            {\r\n              \"name\": \"Shared Last Mile\",\r\n              \"value\": \"No\",\r\n              \"attributeMasterId\": 22\r\n            },\r\n            {\r\n              \"name\": \"Shared Last Mile Service ID\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 23\r\n            },\r\n            {\r\n              \"name\": \"LM MAN bw\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 49\r\n            },\r\n            {\r\n              \"name\": \"LM MAN MUX\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 51\r\n            },\r\n            {\r\n              \"name\": \"LM MAN inbuilding\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 52\r\n            },\r\n            {\r\n              \"name\": \"MAN OCP\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 53\r\n            },\r\n            {\r\n              \"name\": \"MAN Rentals\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 54\r\n            },\r\n            {\r\n              \"name\": \"Provider Chanrge\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 55\r\n            },\r\n            {\r\n              \"name\": \"Mast Charge offnrt\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 57\r\n            },\r\n            {\r\n              \"name\": \"Radwin\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 58\r\n            },\r\n            {\r\n              \"name\": \"Mast Charge onnet\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 60\r\n            },\r\n            {\r\n              \"name\": \"PROW Value\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 60\r\n            },\r\n            {\r\n              \"name\": \"ARC Converter Charges\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 60\r\n            },\r\n            {\r\n              \"name\": \"ARC - BW Onnet\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 60\r\n            },\r\n            {\r\n              \"name\": \"ARC-Colocation\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 60\r\n            },\r\n            {\r\n              \"name\": \"OTC Modem Charges\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 60\r\n            },\r\n            {\r\n              \"name\": \"OTC/NRC - Installation\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 60\r\n            },\r\n            {\r\n              \"name\": \"ARC Modem Charges\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 60\r\n            },\r\n            {\r\n              \"name\": \"ARC - BW Offnet\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 60\r\n            },\r\n            {\r\n              \"name\": \"Local Loop Bandwidth\",\r\n              \"value\": \"20\",\r\n              \"attributeMasterId\": 31\r\n            }\r\n          ],\r\n          \"type\": \"primary\"\r\n        },\r\n        {\r\n          \"name\": \"CPE\",\r\n          \"componentMasterId\": 3,\r\n          \"attributes\": [\r\n            {\r\n              \"name\": \"CPE Basic Chassis\",\r\n              \"value\": \"ISR4321/K9\",\r\n              \"attributeMasterId\": 6\r\n            },\r\n            {\r\n              \"name\": \"CPE Discount Install\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 45\r\n            },\r\n            {\r\n              \"name\": \"CPE Discount Outright Sale\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 46\r\n            },\r\n            {\r\n              \"name\": \"CPE Discount Rental\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 47\r\n            },\r\n            {\r\n              \"name\": \"CPE Discount Management\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 48\r\n            },\r\n            {\r\n              \"name\": \"Shared CPE\",\r\n              \"value\": \"No\",\r\n              \"attributeMasterId\": 24\r\n            },\r\n            {\r\n              \"name\": \"Shared CPE Service ID\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 25\r\n            }\r\n          ],\r\n          \"type\": \"primary\"\r\n        },\r\n        {\r\n          \"name\": \"CPE Management\",\r\n          \"componentMasterId\": 4,\r\n          \"attributes\": [\r\n            {\r\n              \"name\": \"CPE Management Type\",\r\n              \"value\": \"Fully Managed\",\r\n              \"attributeMasterId\": 27\r\n            },\r\n            {\r\n              \"name\": \"CPE Management\",\r\n              \"value\": false,\r\n              \"attributeMasterId\": 28\r\n            }\r\n          ],\r\n          \"type\": \"primary\"\r\n        },\r\n        {\r\n          \"name\": \"IAS Common\",\r\n          \"componentMasterId\": 5,\r\n          \"attributes\": [\r\n            {\r\n              \"name\": \"Service Variant\",\r\n              \"value\": \"Standard\",\r\n              \"attributeMasterId\": 2\r\n            },\r\n            {\r\n              \"name\": \"Resiliency\",\r\n              \"value\": \"No\",\r\n              \"attributeMasterId\": 7\r\n            },\r\n            {\r\n              \"name\": \"Connector Type\",\r\n              \"value\": \"LC\",\r\n              \"attributeMasterId\": 26\r\n            },\r\n            {\r\n              \"name\": \"Access Required\",\r\n              \"value\": \"Yes\",\r\n              \"attributeMasterId\": 30\r\n            },\r\n            {\r\n              \"name\": \"CPE\",\r\n              \"value\": \"TATACOMM(Rental)\",\r\n              \"attributeMasterId\": 32\r\n            },\r\n            {\r\n              \"name\": \"Backup Configuration\",\r\n              \"value\": \"\",\r\n              \"attributeMasterId\": 35\r\n            },\r\n            {\r\n              \"name\": \"IP Address Provided By\",\r\n              \"value\": \"TCL\",\r\n              \"attributeMasterId\": 36\r\n            },\r\n            {\r\n              \"name\": \"Dual Circuit\",\r\n              \"value\": \"No\",\r\n              \"attributeMasterId\": 67\r\n            },\r\n            {\r\n              \"name\": \"isAuthenticationRequired for protocol\",\r\n              \"value\": \"No\",\r\n              \"attributeMasterId\": 19\r\n            },\r\n            {\r\n              \"name\": \"Routes Exchanged\",\r\n              \"value\": \"Default routes\",\r\n              \"attributeMasterId\": 20\r\n            },\r\n            {\r\n              \"name\": \"AS Number\",\r\n              \"value\": \"TCL private AS Number\",\r\n              \"attributeMasterId\": 37\r\n            }\r\n          ],\r\n          \"type\": \"primary\"\r\n        },\r\n        {\r\n          \"name\": \"Addon\",\r\n          \"componentMasterId\": 6,\r\n          \"attributes\": [\r\n            {\r\n              \"name\": \"Additional IPs\",\r\n              \"value\": \"No\",\r\n              \"attributeMasterId\": 15\r\n            },\r\n            {\r\n              \"name\": \"DNS\",\r\n              \"value\": \"No\",\r\n              \"attributeMasterId\": 33\r\n            }\r\n          ],\r\n          \"type\": \"primary\"\r\n        }\r\n      ],\r\n      \"image\": \"./assets/images/profileImages/I-LC.png\",\r\n      \"description\": \"Single Internet Access, with Last-mile, and CPE\"\r\n    }\r\n  ],\r\n  \"engagementOptyId\": null,\r\n  \"quoteCode\": null,\r\n  \"classification\": \"Sell To\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/optimus-oms/api/v1/quotes?customerId={{customerid}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"optimus-oms",
+						"api",
+						"v1",
+						"quotes"
+					],
+					"query": [
+						{
+							"key": "customerId",
+							"value": "{{customerid}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get CITY By Pincode & Country",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "be959d80-b001-4203-83de-d6351e87c658",
+						"exec": [
+							"let response = pm.response.json()\r",
+							"if(response.data && response.data.length) {\r",
+							"pm.environment.set('city', response.data[0].city);\r",
+							"pm.environment.set('cityId', response.data[0].cityId);\r",
+							"}\r",
+							"pm.test(\"Fetch Cities\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/optimus-location/api/v1/locations/pincode/cities?pincode={{pincode}}&country={{country}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"optimus-location",
+						"api",
+						"v1",
+						"locations",
+						"pincode",
+						"cities"
+					],
+					"query": [
+						{
+							"key": "pincode",
+							"value": "{{pincode}}"
+						},
+						{
+							"key": "country",
+							"value": "{{country}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Locality By Pincode & City",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "091d3320-fdd9-41d2-a034-07a326467406",
+						"exec": [
+							"let response = pm.response.json();\r",
+							"if(response.data && response.data.length > 1) {\r",
+							"pm.environment.set('locality', response.data[1]);    \r",
+							"pm.environment.set('address','Swami Sivananda Salai, Navalar Nagar, Chepauk, Triplicane, Chennai, Tamil Nadu 600005');\r",
+							"} else {\r",
+							"    pm.environment.set('locality', 'perungudi');    \r",
+							"    pm.environment.set('address','prince infocity');\r",
+							"}\r",
+							"pm.test(\"Fetch Locality\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"console.log('Set Locality',pm.environment.get('locality'));\r",
+							"console.log('Set Address',pm.environment.get('address'));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/optimus-location/api/v1/locations/locality?pincode={{pincode}}&city={{city}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"optimus-location",
+						"api",
+						"v1",
+						"locations",
+						"locality"
+					],
+					"query": [
+						{
+							"key": "pincode",
+							"value": "{{pincode}}"
+						},
+						{
+							"key": "city",
+							"value": "{{city}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get  State By City",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fa04603a-8235-48f1-9427-1389f3287c52",
+						"exec": [
+							"let response = pm.response.json();\r",
+							"if(response.data && response.data.length) {\r",
+							"pm.environment.set('state', response.data);    \r",
+							"} else{\r",
+							" pm.environment.set('state', \"Tamil Nadu\");    \r",
+							"}\r",
+							"pm.test(\"get state\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"console.log('Set state',pm.environment.get('state'));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/optimus-location/api/v1/locations/stateinfo?city={{cityId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"optimus-location",
+						"api",
+						"v1",
+						"locations",
+						"stateinfo"
+					],
+					"query": [
+						{
+							"key": "city",
+							"value": "{{cityId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get lat long By Pincode",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6925b879-0eb4-4fb9-b737-0b4b58245971",
+						"exec": [
+							"let response = pm.response.json();\r",
+							"if(response.results && response.results.length) {\r",
+							"pm.environment.set('latlong', response.results[0].geometry.location.lat.toFixed(4) + ',' + response.results[0].geometry.location.lng.toFixed(4));    \r",
+							"}\r",
+							"pm.test(\"get latitude longitude by pincode\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"console.log('Set latlong',pm.environment.get('latlong'));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "key",
+							"value": "key",
+							"type": "string"
+						},
+						{
+							"key": "value",
+							"value": "AIzaSyABsK46nzZQTt5N_zEM6vRONgpwYZypdhA",
+							"type": "string"
+						},
+						{
+							"key": "in",
+							"value": "query",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://maps.googleapis.com/maps/api/geocode/json?address={{pincode}}",
+					"protocol": "https",
+					"host": [
+						"maps",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"maps",
+						"api",
+						"geocode",
+						"json"
+					],
+					"query": [
+						{
+							"key": "address",
+							"value": "{{pincode}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save Location",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6d17d5df-dde2-4b72-9a40-827915b1c524",
+						"exec": [
+							"let obj = {\r",
+							"  \"customerId\": pm.environment.get('customerid'),\r",
+							"  \"userAddress\": {\r",
+							"    \"addressLineOne\":pm.environment.get('address'),\r",
+							"    \"city\": pm.environment.get('city'),\r",
+							"    \"country\": pm.environment.get('country'),\r",
+							"    \"locality\":  pm.environment.get('locality'),\r",
+							"    \"pincode\": pm.environment.get('pincode')\r",
+							"  },\r",
+							"  \"apiAddress\": {\r",
+							"    \"addressLineOne\": pm.environment.get('address'),\r",
+							"    \"latLong\": pm.environment.get('latlong'),\r",
+							"    \"formatted_address\": pm.environment.get('address'),\r",
+							"    \"locality\":pm.environment.get('locality'),\r",
+							"    \"city\": pm.environment.get('city'),\r",
+							"    \"state\": pm.environment.get('state'),\r",
+							"    \"country\":  pm.environment.get('country'),\r",
+							"    \"pincode\": pm.environment.get('pincode')\r",
+							"  }\r",
+							"}\r",
+							"pm.environment.set('locationObject',JSON.stringify(obj));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "9ec96bcf-0761-4e42-ae34-dc832c582867",
+						"exec": [
+							"pm.test(\"save location\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{{locationObject}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/optimus-location/api/v1/locations",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"optimus-location",
+						"api",
+						"v1",
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save site",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a64d9f40-9ea8-46ee-a731-a01d89265561",
+						"exec": [
+							"pm.test(\"Save site\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"customerId\": {{customerid}},\r\n  \"quoteId\": {{quoteId}},\r\n  \"quoteleId\": {{quoteleId}},\r\n  \"productName\": \"IAS\",\r\n  \"site\": [\r\n    {\r\n      \"offeringName\": \"{{offeringName}}\",\r\n      \"site\": [\r\n        {\r\n          \"locationId\": {{locationId}}\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/optimus-oms/api/v1/quotes/{{quoteId}}/le/{{quoteleId}}/sites?isColo=false",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"optimus-oms",
+						"api",
+						"v1",
+						"quotes",
+						"{{quoteId}}",
+						"le",
+						"{{quoteleId}}",
+						"sites"
+					],
+					"query": [
+						{
+							"key": "isColo",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Trigger Pricing",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "96ae61b2-a227-4857-bb2c-4d14e562540f",
+						"exec": [
+							"pm.test(\"Trigger Pricing\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"legalEntityId\":{{quoteleId}}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/optimus-oms/api/v1/quotes/trigger/feasiblities",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"optimus-oms",
+						"api",
+						"v1",
+						"quotes",
+						"trigger",
+						"feasiblities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check For Pricing",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bb4b7b64-b7c3-4096-8a25-b67e305094c7",
+						"exec": [
+							"let response = pm.response.json();\r",
+							"console.log('Status',response.data);\r",
+							"if(response.data) {\r",
+							"    postman.setNextRequest('Check For Feasibility Status');\r",
+							"} else {\r",
+							"    setTimeout(function(){\r",
+							"    postman.setNextRequest('Check For Pricing');\r",
+							"    }, 5000); \r",
+							"}\r",
+							"pm.test(\"Check Pricing\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/optimus-oms/api/v1/quotes/feasibility/{{quoteleId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"optimus-oms",
+						"api",
+						"v1",
+						"quotes",
+						"feasibility",
+						"{{quoteleId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check For Feasibility Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0665404b-e35a-447c-a70c-14c22e12d408",
+						"exec": [
+							"pm.test(\"Check For Feasibility Status\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"let response = pm.response.json();\r",
+							"pm.environment.set('quoteCode',response.data.quoteCode);\r",
+							"\r",
+							"const {sites} = response.data['legalEntities'][0]['productFamilies'][0]['solutions'][0];\r",
+							" pm.environment.set('sites',sites);\r",
+							" pm.environment.set('siteId',sites[0].siteId)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/optimus-oms/api/v1/quotes/{{quoteId}}?feasiblesites=all&siteproperties=true",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"optimus-oms",
+						"api",
+						"v1",
+						"quotes",
+						"{{quoteId}}"
+					],
+					"query": [
+						{
+							"key": "feasiblesites",
+							"value": "all"
+						},
+						{
+							"key": "siteproperties",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save Contract Entity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5aade3cd-aee6-4827-a443-9756a9a3751a",
+						"exec": [
+							"pm.test(\"Save Contract Entity\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"illSitesIds\": [],\r\n  \"isTaxExemption\": \"no\",\r\n  \"numberOfEntity\": \"single\",\r\n  \"customerLegalEntityId\": {{customerleid}},\r\n  \"po_number\": \"\",\r\n  \"po_date\": null,\r\n  \"legalEntityId\": {{customerleid}},\r\n  \"entityName\": \"ARG OUTLIER MEDIA ASIANET NEWS PRIVATE LIMITED\",\r\n  \"billingAddress\": \"NBW Building, OPP Wadia International Centre Bombay Dyeing compound,Pandurang Budhwar Marg, Worli Mumbai Maharashtra India 400030\",\r\n  \"GSTNumber\": \"27AAOCA6334Q1ZY\",\r\n  \"LeStateGstAddress\": \"Worli,Mumbai,400030,Maharashtra,India\",\r\n  \"leStateGstId\": 26288,\r\n  \"correspondingLegalEntityName\": \"Tata Communications Limited\",\r\n  \"currency\": \"INR\",\r\n  \"supplierLegalEntityId\": 5,\r\n  \"supplierLouRequired\": false,\r\n  \"quoteId\": {{quoteId}},\r\n  \"quoteLeId\": {{quoteleId}},\r\n  \"familyName\": \"IAS\",\r\n  \"customerId\": {{customerid}},\r\n  \"teamRoleSfdc\": null,\r\n  \"regionSfdc\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/optimus-oms/api/v1/quotes/{{quoteId}}/le/{{quoteleId}}/contractentity",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"optimus-oms",
+						"api",
+						"v1",
+						"quotes",
+						"{{quoteId}}",
+						"le",
+						"{{quoteleId}}",
+						"contractentity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit DocuSign",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4cae6dc2-d0c0-446f-ae00-bfc4fff59284",
+						"exec": [
+							"pm.test(\"Submit docusign\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/optimus-oms/api/v1/quotes/{{quoteId}}/le/{{quoteleId}}/docusign?nat=true&email=mohit@republicworld.com&name=Mohit Dhamne",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"optimus-oms",
+						"api",
+						"v1",
+						"quotes",
+						"{{quoteId}}",
+						"le",
+						"{{quoteleId}}",
+						"docusign"
+					],
+					"query": [
+						{
+							"key": "nat",
+							"value": "true"
+						},
+						{
+							"key": "email",
+							"value": "mohit@republicworld.com"
+						},
+						{
+							"key": "name",
+							"value": "Mohit Dhamne"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate COF",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "422eff59-ed4d-4804-b019-5890f75589a2",
+						"exec": [
+							"pm.test(\"Validate COF\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/optimus-oms/api/v1/quotes/{{quoteId}}/le/{{quoteleId}}/cof/validate",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"optimus-oms",
+						"api",
+						"v1",
+						"quotes",
+						"{{quoteId}}",
+						"le",
+						"{{quoteleId}}",
+						"cof",
+						"validate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Download Order Form",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fe60b586-e774-4b51-97fb-3756cf257ad1",
+						"exec": [
+							"pm.test(\"Download Order Form\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/optimus-oms/api/v1/quotes/{{quoteId}}/le/{{quoteleId}}/cofpdf?nat=true",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"optimus-oms",
+						"api",
+						"v1",
+						"quotes",
+						"{{quoteId}}",
+						"le",
+						"{{quoteleId}}",
+						"cofpdf"
+					],
+					"query": [
+						{
+							"key": "nat",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save Order enrichment Logistical Data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "108c7a46-a1a5-4e53-a922-6a6089ff99ac",
+						"exec": [
+							"pm.test(\"Save Order enrichment Logistical Data\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"contact\": {\r\n    \"locationId\": {{locationId}},\r\n    \"name\": \"Mrinmayee\",\r\n    \"email\": \"mrinmayee@gmail.com\",\r\n    \"contactNo\": \"9090909090\",\r\n    \"erfCustomerLeId\": {{customerleid}},\r\n    \"localItContactId\": 0\r\n  },\r\n  \"demarcation\": {\r\n    \"locationId\": {{locationId}},\r\n    \"floor\": \"2\",\r\n    \"room\": \"4\",\r\n    \"wing\": \"1\",\r\n    \"buildingName\": \"Edant Appt\"\r\n  },\r\n  \"customerId\": {{customerid}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/optimus-location/api/v1/locations/{{locationId}}/localitdemarcation",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"optimus-location",
+						"api",
+						"v1",
+						"locations",
+						"{{locationId}}",
+						"localitdemarcation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save Order Enrichment Properties",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1a68ffde-2528-40bd-840d-ff4fd34ecbb1",
+						"exec": [
+							"pm.test(\"Save Order Enrichment Properties\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"attributeDetails\": [\r\n    {\r\n      \"name\": \"LOCAL_IT_CONTACT\",\r\n      \"value\": \"7029\"\r\n    },\r\n    {\r\n      \"name\": \"GSTNO\",\r\n      \"value\": \"33AAACD3312M1Z0\"\r\n    }\r\n  ],\r\n  \"siteId\": {{siteId}},\r\n  \"familyName\": \"IAS\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/optimus-oms/api/v1/quotes/{{quoteId}}/le/{{quoteleId}}/sites/{{siteId}}/properties",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"optimus-oms",
+						"api",
+						"v1",
+						"quotes",
+						"{{quoteId}}",
+						"le",
+						"{{quoteleId}}",
+						"sites",
+						"{{siteId}}",
+						"properties"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save Order Enrichment Attributes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6446aa48-eafe-4b19-8dca-ea6769b12583",
+						"exec": [
+							"pm.test(\"Save Order Enrichment Attributes\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"quoteToLe\":{{quoteleId}},\"attributeName\":\"Is Order Enrichment Attributes Provided\",\"attributeValue\":\"Yes\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/optimus-oms/api/v1/quotes/{{quoteId}}/le/{{quoteleId}}/attribute",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"optimus-oms",
+						"api",
+						"v1",
+						"quotes",
+						"{{quoteId}}",
+						"le",
+						"{{quoteleId}}",
+						"attribute"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save Order Enrichment Technical Data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c08f15ce-48be-442f-b48f-04d7fc425fd7",
+						"exec": [
+							"pm.test(\"Save Order Enrichment Technical Data\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"quoteleId\": {{quoteleId}},\r\n  \"siteId\": {{siteId}},\r\n  \"componentDetails\": [\r\n    {\r\n      \"name\": \"IAS Common\",\r\n      \"type\": \"primary\",\r\n      \"componentMasterId\": 5,\r\n      \"attributes\": [\r\n        {\r\n          \"componentId\": 5,\r\n          \"attributeMasterId\": 7,\r\n          \"name\": \"Resiliency\",\r\n          \"value\": \"No\",\r\n          \"attributeId\": 3275725\r\n        },\r\n        {\r\n          \"componentId\": 5,\r\n          \"attributeMasterId\": 26,\r\n          \"name\": \"Connector Type\",\r\n          \"value\": \"LC\",\r\n          \"attributeId\": 3275726\r\n        },\r\n        {\r\n          \"componentId\": 5,\r\n          \"attributeMasterId\": 30,\r\n          \"name\": \"Access Required\",\r\n          \"value\": \"Yes\",\r\n          \"attributeId\": 3275727\r\n        },\r\n        {\r\n          \"componentId\": 5,\r\n          \"attributeMasterId\": 32,\r\n          \"name\": \"CPE\",\r\n          \"value\": \"TATACOMM(Rental)\",\r\n          \"attributeId\": 3275728\r\n        },\r\n        {\r\n          \"componentId\": 5,\r\n          \"attributeMasterId\": 36,\r\n          \"name\": \"IP Address Provided By\",\r\n          \"value\": \"TCL\",\r\n          \"attributeId\": 3275730\r\n        },\r\n        {\r\n          \"componentId\": 5,\r\n          \"attributeMasterId\": 19,\r\n          \"name\": \"isAuthenticationRequired for protocol\",\r\n          \"value\": \"No\",\r\n          \"attributeId\": 3275732\r\n        },\r\n        {\r\n          \"componentId\": 5,\r\n          \"attributeMasterId\": 20,\r\n          \"name\": \"Routes Exchanged\",\r\n          \"value\": \"Default routes\",\r\n          \"attributeId\": 3275733\r\n        },\r\n        {\r\n          \"componentId\": 5,\r\n          \"attributeMasterId\": 37,\r\n          \"name\": \"AS Number\",\r\n          \"value\": \"TCL private AS Number\",\r\n          \"attributeId\": 3275734\r\n        }\r\n      ]\r\n    },\r\n    {\r\n      \"name\": \"Addon\",\r\n      \"type\": \"primary\",\r\n      \"componentMasterId\": 6,\r\n      \"attributes\": [\r\n        {\r\n          \"componentId\": 6,\r\n          \"attributeMasterId\": 33,\r\n          \"name\": \"DNS\",\r\n          \"value\": \"No\",\r\n          \"attributeId\": 3275736\r\n        },\r\n        {\r\n          \"componentId\": 6,\r\n          \"attributeMasterId\": 15,\r\n          \"name\": \"Additional IPs\",\r\n          \"value\": \"No\",\r\n          \"attributeId\": 3275735\r\n        }\r\n      ]\r\n    },\r\n    {\r\n      \"name\": \"Internet Port\",\r\n      \"type\": \"primary\",\r\n      \"componentMasterId\": 1,\r\n      \"attributes\": [\r\n        {\r\n          \"componentId\": 1,\r\n          \"attributeMasterId\": 16,\r\n          \"name\": \"Extended LAN Required?\",\r\n          \"value\": \"No\",\r\n          \"attributeId\": 3275689\r\n        },\r\n        {\r\n          \"componentId\": 1,\r\n          \"attributeMasterId\": 18,\r\n          \"name\": \"Routing Protocol\",\r\n          \"value\": \"Static\",\r\n          \"attributeId\": 3275690\r\n        },\r\n        {\r\n          \"componentId\": 1,\r\n          \"attributeMasterId\": 17,\r\n          \"name\": \"BFD Required\",\r\n          \"value\": \"No\",\r\n          \"attributeId\": 3275691\r\n        },\r\n        {\r\n          \"componentId\": 1,\r\n          \"attributeMasterId\": 21,\r\n          \"name\": \"BGP Peering on\",\r\n          \"value\": \"\",\r\n          \"attributeId\": 3275692\r\n        },\r\n        {\r\n          \"componentId\": 1,\r\n          \"attributeMasterId\": 38,\r\n          \"name\": \"BGP AS Number\",\r\n          \"value\": \"\",\r\n          \"attributeId\": 3275693\r\n        },\r\n        {\r\n          \"componentId\": 1,\r\n          \"attributeMasterId\": 39,\r\n          \"name\": \"Customer prefixes\",\r\n          \"value\": \"\",\r\n          \"attributeId\": 3275694\r\n        }\r\n      ]\r\n    },\r\n    {\r\n      \"name\": \"Last mile\",\r\n      \"type\": \"primary\",\r\n      \"componentMasterId\": 2,\r\n      \"attributes\": [\r\n        {\r\n          \"componentId\": 2,\r\n          \"attributeMasterId\": 22,\r\n          \"name\": \"Shared Last Mile\",\r\n          \"value\": \"No\",\r\n          \"attributeId\": 3275695\r\n        },\r\n        {\r\n          \"componentId\": 2,\r\n          \"attributeMasterId\": 23,\r\n          \"name\": \"Shared Last Mile Service ID\",\r\n          \"value\": \"\",\r\n          \"attributeId\": 3275696\r\n        }\r\n      ]\r\n    },\r\n    {\r\n      \"name\": \"CPE\",\r\n      \"type\": \"primary\",\r\n      \"componentMasterId\": 3,\r\n      \"attributes\": [\r\n        {\r\n          \"componentId\": 3,\r\n          \"attributeMasterId\": 24,\r\n          \"name\": \"Shared CPE\",\r\n          \"value\": \"No\",\r\n          \"attributeId\": 3275720\r\n        },\r\n        {\r\n          \"componentId\": 3,\r\n          \"attributeMasterId\": 25,\r\n          \"name\": \"Shared CPE Service ID\",\r\n          \"value\": \"\",\r\n          \"attributeId\": 3275721\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/optimus-oms/api/v1/quotes/{{quoteId}}/le/{{quoteleId}}/sites/{{siteId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"optimus-oms",
+						"api",
+						"v1",
+						"quotes",
+						"{{quoteId}}",
+						"le",
+						"{{quoteleId}}",
+						"sites",
+						"{{siteId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
